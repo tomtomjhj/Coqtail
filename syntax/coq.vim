@@ -249,13 +249,14 @@ syn region coqBinderTypeParen   contained contains=@coqTerm matchgroup=coqVernac
 syn region coqBinderTypeCurly   contained contains=@coqTerm matchgroup=coqVernacPunctuation start=":" end="}"
 
 " Declarations
+" NOTE: NO matchgroup=coqIdentDefinition
 syn region coqDecl       contains=coqIdent,coqDeclTerm,coqBinder matchgroup=coqVernacCmd start="\<\%(Axioms\?\|Conjectures\?\|Hypothes[ie]s\|Parameters\?\|Variables\?\|Context\)\>" matchgroup=coqVernacCmd end="\.\_s" keepend
 syn region coqDeclTerm   contained contains=@coqTerm matchgroup=coqVernacPunctuation start=":" end=")"
 syn region coqDeclTerm   contained contains=@coqTerm matchgroup=coqVernacPunctuation start=":" end="\.\_s"
 
 " Theorems
 syn region coqThm       contains=coqThmName matchgroup=coqVernacCmd start="\<\%(Program\_s\+\)\?\%(Theorem\|Lemma\|Example\|Corollary\|Remark\|Fact\|Proposition\)\>" matchgroup=NONE end="\<\%(Qed\|Defined\|Admitted\|Abort\)\.\_s" keepend
-syn region coqThmName   contained contains=coqThmTerm,coqBinder matchgroup=coqIdent start="[[:digit:]']\@!\k\k*" matchgroup=NONE end="\<\%(Qed\|Defined\|Admitted\|Abort\)\.\_s"
+syn region coqThmName   contained contains=coqThmTerm,coqBinder matchgroup=coqIdentDefinition start="[[:digit:]']\@!\k\k*" matchgroup=NONE end="\<\%(Qed\|Defined\|Admitted\|Abort\)\.\_s"
 syn region coqThmTerm   contained contains=@coqTerm,coqProofBody matchgroup=coqVernacCmd start=":" matchgroup=NONE end="\<\%(Qed\|Defined\|Admitted\|Abort\)\>"
 
 syn region coqGoal      contains=coqGoalTerm start="\<Goal\>" matchgroup=NONE end="\<\%(Qed\|Defined\|Admitted\|Abort\)\>" keepend
@@ -264,7 +265,7 @@ syn region coqGoalTerm  contained contains=@coqTerm,coqProofBody matchgroup=coqV
 " Ltac
 syn region coqLtacDecl     contains=coqLtacProfile start="\<Ltac\>" end="\.\_s" keepend
 syn region coqLtacProfile  contained contains=coqLtacIdent,coqVernacPunctuation,coqLtacContents start="Ltac" end="\.\_s"
-syn region coqLtacIdent    contained matchgroup=coqVernacCmd start="Ltac" matchgroup=coqIdent end="[[:digit:]']\@!\k\k*"
+syn region coqLtacIdent    contained matchgroup=coqVernacCmd start="Ltac" matchgroup=coqIdentDefinition end="[[:digit:]']\@!\k\k*"
 syn region coqLtacContents contained contains=coqTactic,coqTacticKwd,coqTacticAdmit,coqLtac,coqProofPunctuation matchgroup=coqVernacPunctuation start=":=" end="\.\_s"
 
 syn keyword coqLtac contained do info progress repeat try
@@ -278,9 +279,9 @@ syn region coqLtac2Decl contains=coqLtac2Eval start="\<Ltac2\_sEval\>" end="\.\_
 syn region coqLtac2Decl contains=coqLtac2Notation,coqLtacContents start="\<Ltac2\_sNotation\>" end="\.\_s" keepend
 syn region coqLtac2Decl contains=coqIdent matchgroup=coqVernacCmd start="\<Print\_sLtac2\>" end="\.\_s" keepend
 
-syn region coqLtac2Ident contained matchgroup=coqVernacCmd start="\<Ltac2\%(\_sType\)\?\>" matchgroup=coqIdent end="[[:digit:]']\@!\k\k*"
+syn region coqLtac2Ident contained matchgroup=coqVernacCmd start="\<Ltac2\%(\_sType\)\?\>" matchgroup=coqIdentDefinition end="[[:digit:]']\@!\k\k*"
 
-syn region coqLtac2Eval  contained contains=coqTerm,coqTactic,coqTacticKwd,coqTacticAdmit,coqLtac,coqProofPunctuation matchgroup=coqVernacCmd start="\<Ltac2\_sEval\>" matchgroup=coqIdent end="\.\_s"
+syn region coqLtac2Eval  contained contains=coqTerm,coqTactic,coqTacticKwd,coqTacticAdmit,coqLtac,coqProofPunctuation matchgroup=coqVernacCmd start="\<Ltac2\_sEval\>" matchgroup=coqIdentDefinition end="\.\_s"
 syn region coqLtac2Notation contained contains=coqProofPunctuation,coqString matchgroup=coqVernacCmd start="\<Ltac2\_sNotation\>" end="\.\_s"
 
 " Proofs
@@ -315,20 +316,21 @@ syn region  coqProofComment     contained contains=coqProofComment,coqTodo start
 
 " Definitions
 syn region coqDef          contains=coqDefName matchgroup=coqVernacCmd start="\<\%(Program\_s\+\)\?\%(Definition\|Let\|Example\)\>" matchgroup=coqVernacPunctuation end=":="me=e-2 end="\.$"me=e-1 end="\.\_s"me=e-2 nextgroup=coqDefContents1,coqProofBody keepend skipnl skipwhite skipempty
-syn region coqDefName       contained contains=coqBinder,coqDefType,coqDefContents1 matchgroup=coqIdent start="[[:digit:]']\@!\k\k*" matchgroup=NONE end="\.\_s" end=":="
+" TODO: matchgroup=coqIdentDefinition differentiate the coqIdent and the identifier being defined
+syn region coqDefName       contained contains=coqBinder,coqDefType,coqDefContents1 matchgroup=coqIdentDefinition start="[[:digit:]']\@!\k\k*" matchgroup=NONE end="\.\_s" end=":="
 syn region coqDefType       contained contains=@coqTerm matchgroup=coqVernacPunctuation start=":" matchgroup=NONE end="\.\_s" end=":="
 syn region coqDefContents1  contained contains=@coqTerm matchgroup=coqVernacPunctuation start=":=" matchgroup=coqVernacPunctuation end="\.\_s"
 
 " Coercions
 syn region coqCoercion      contains=coqCoercionName,coqCoercionBody1,coqCoercionBody2 matchgroup=coqVernacCmd start="\<\%(Identity\_s\+\)\?Coercion\>" matchgroup=coqVernacPunctuation end="\.\_s" keepend
-syn region coqCoercionName  contained contains=coqBinder,coqDefType matchgroup=coqIdent start="[[:digit:]']\@!\k\k*" matchgroup=NONE end=":="me=e-2 end=">->"me=e-3 keepend
+syn region coqCoercionName  contained contains=coqBinder,coqDefType matchgroup=coqIdentDefinition start="[[:digit:]']\@!\k\k*" matchgroup=NONE end=":="me=e-2 end=">->"me=e-3 keepend
 syn region coqCoercionBody1 contained contains=coqIdent matchgroup=coqVernacPunctuation start=">->" end="\.\_s""
 syn region coqCoercionBody2 contained contains=@coqTerm matchgroup=coqVernacPunctuation start=":=" end="\.\_s""
 
 " Fixpoints
 syn region coqFix     contains=coqFixBody start="\<\%(Program\_s\+\)\?\%(\%(\%(Co\)\?Fixpoint\)\|Fixpoint\|Function\)\>" matchgroup=coqVernacPunctuation end="\.\_s" keepend
 syn region coqFixBody       contained contains=coqFixName matchgroup=coqVernacCmd start="\%(\%(\%(Co\)\?Fixpoint\)\|Function\)" start="\<with\>" matchgroup=NONE end="\.\_s"
-syn region coqFixName       contained contains=coqBinder,coqFixAnnot,coqFixTerm,coqFixContent matchgroup=coqIdent start="[[:digit:]']\@!\k\k*" matchgroup=NONE end="\.\_s"
+syn region coqFixName       contained contains=coqBinder,coqFixAnnot,coqFixTerm,coqFixContent matchgroup=coqIdentDefinition start="[[:digit:]']\@!\k\k*" matchgroup=NONE end="\.\_s"
 syn region coqFixAnnot      contained contains=@coqTerm matchgroup=coqVernacPunctuation start="{\_s*struct" end="}" keepend
 syn region coqFixTerm       contained contains=@coqTerm,coqFixContent matchgroup=coqVernacPunctuation start=":" end="\.\_s"
 syn region coqFixContent    contained contains=coqFixBody,@coqTerm,coqKwdMatch,coqFixNot matchgroup=coqVernacPunctuation start=":=" end="\.\_s"
@@ -338,17 +340,19 @@ syn region coqFixNotScope   contained contains=coqFixBody matchgroup=coqVernacPu
 
 " Inductives
 syn region coqInd            contains=coqIndBody start="\<\%(Co\)\?Inductive\>\|\<Variant\>" matchgroup=coqVernacPunctuation end="\.\_s" keepend
+" TODO: matchgroup=coqIdentDefinition
 syn region coqIndBody     contained contains=coqIdent,coqIndTerm,coqBinder matchgroup=coqVernacCmd start="\%(\%(Co\)\?Inductive\)\|Variant" start="\<with\>" matchgroup=NONE end="\.\_s"
 syn region coqIndTerm        contained contains=@coqTerm,coqIndContent matchgroup=coqVernacPunctuation start=":" matchgroup=NONE end="\.\_s"
 syn region coqIndContent     contained contains=coqIndConstructor start=":=" end="\.\_s"
 syn region coqIndConstructor contained contains=coqConstructor,coqBinder,coqIndConsTerm,coqIndNot,coqIndBody matchgroup=coqVernacPunctuation start=":=\%(\_s*|\)\?" start="|" matchgroup=NONE end="\.\_s"
-syn region coqIndConsTerm    contained contains=coqIndBody,@coqTerm,coqIndConstructor,coqIndNot matchgroup=coqConstructor start=":" matchgroup=NONE end="\.\_s"
+syn region coqIndConsTerm    contained contains=coqIndBody,@coqTerm,coqIndConstructor,coqIndNot matchgroup=coqVernacPunctuation start=":" matchgroup=NONE end="\.\_s"
 syn region coqIndNot         contained contains=coqNotationString,coqIndNotTerm matchgroup=coqVernacCmd start="\<where\>" end="\.\_s"
 syn region coqIndNotTerm     contained contains=@coqTerm,coqIndNotScope,coqIndBody matchgroup=coqVernacPunctuation start=":=" end="\.\_s"
 syn region coqIndNotScope    contained contains=coqIndBody matchgroup=coqVernacPunctuation start=":" end="\.\_s"
 syn match  coqConstructor    contained "[[:digit:]']\@!\k\k*"
 
 " Records
+" TODO: matchgroup=coqIdentDefinition
 syn region coqRec        contains=coqRecProfile start="\<Record\>" matchgroup=coqVernacPunctuation end="\.\_s" keepend
 syn region coqRecProfile contained contains=coqIdent,coqRecTerm,coqBinder matchgroup=coqVernacCmd start="Record" matchgroup=NONE end="\.\_s"
 syn region coqRecTerm    contained contains=@coqTerm,coqRecContent matchgroup=coqVernacPunctuation start=":"  end="\.\_s"
@@ -359,6 +363,7 @@ syn region coqRecField   contained contains=coqField matchgroup=coqVernacPunctua
 syn match coqField       contained "[[:digit:]']\@!\k\k*"
 
 " Typeclasses
+" TODO: do somethign similar to coqDefName
 syn region coqCls        contains=coqClsProfile start="\<Class\>" matchgroup=coqVernacPunctuation end="\.\_s" keepend
 syn region coqClsProfile contained contains=coqIdent,coqRecTerm,coqBinder matchgroup=coqVernacCmd start="Class" matchgroup=NONE end="\.\_s"
 
@@ -444,6 +449,8 @@ HiLink coqTopLevel          coqVernacular
 
 " DEFINED OBJECTS
 HiLink coqIdent             Identifier
+" TODO link to coqIdent
+HiLink coqIdentDefinition   Constant
 HiLink coqNotationString    coqIdent
 
 " CONSTRUCTORS AND FIELDS
