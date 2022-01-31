@@ -80,12 +80,25 @@ elseif g:coqtail#compat#nvim
       return ''
     endif
 
-    while s:replies[l:msg_id] == {}
-      execute printf('sleep %dm', s:poll_rate)
-    endwhile
-    let l:res = s:replies[l:msg_id]
-    unlet s:replies[l:msg_id]
-    return l:res
+    let polled = 0
+    try
+      while s:replies[l:msg_id] == {}
+        let polled += 1
+        if polled % 100 == 0
+            echom 'blocked:' l:msg_id
+            redraw
+        endif
+        execute printf('sleep %dm', s:poll_rate)
+      endwhile
+      let l:res = s:replies[l:msg_id]
+      return l:res
+    catch /^Vim:Interrupt$/
+      echom 'interrupted:' l:msg_id l:msg
+      " TODO: all 'sync' calls must check if it was interrupted
+      return ''
+    finally
+      unlet s:replies[l:msg_id]
+    endtry
   endfunction
 
   " Handle replies from Coqtail.
