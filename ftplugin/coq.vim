@@ -24,7 +24,8 @@ endif
 if g:coqtail#supported
   setlocal includeexpr=coqtail#findlib(v:fname)
   setlocal suffixesadd=.v
-  setlocal include=\\<Require\\>\\(\\_s*\\(Import\\\|Export\\)\\>\\)\\?
+  " TODO: how to support multiple qualid's?
+  setlocal include=\\zs\\(\\<From\\>\\_s*[[:fname:].]*\\_s*\\)\\?\\<Require\\>\\(\\_s*\\(Import\\\|Export\\)\\>\\)\\?\\_s*[[:fname:].]*
   let b:undo_ftplugin = add(b:undo_ftplugin, 'setl inex< sua< inc<')
 endif
 

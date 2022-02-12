@@ -41,7 +41,10 @@ endif
 
 " Find the path corresponding to 'lib'. Used by includeexpr.
 function! coqtail#findlib(lib) abort
-  let [l:ok, l:lib] = s:call('find_lib', 'sync', 0, {'lib': a:lib})
+  let parsed = matchlist(a:lib, '\v%(%(From\_s*)@<=([[:fname:].]+)\_s*)?Require\_s*%(Import|Export)?\_s*([[:fname:].]*\.@![[:fname:].])?')
+  let dirpath = parsed[1]
+  let name = (empty(dirpath) ? '' : dirpath . '.') . parsed[2]
+  let [l:ok, l:lib] = s:call('find_lib', 'sync', 0, {'lib': name})
   return (l:ok && l:lib != v:null) ? l:lib : a:lib
 endfunction
 
