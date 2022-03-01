@@ -52,7 +52,8 @@ syn region coqKwdParen         contained contains=@coqTerm matchgroup=coqTermPun
 syn keyword coqKwd             contained else end exists2 fix forall fun if in struct then as return
 syn match   coqKwd             contained "\<where\>"
 syn match   coqKwd             contained "\<exists!\?\>"
-syn match   coqKwd             contained "|\|/\\\|\\/\|<->\|\~\|->\|=>\|{\|}\|&\|+\|-\|*\|=\|>\|<\|<="
+syn match   coqKwd             contained "∀\|∃\|λ"
+syn match   coqKwd             contained "|\|/\\\|∧\|\\/\|∨\|<->\|↔\|->\|→\|=>\|<-\|←\|∗"
 syn match coqTermPunctuation   contained ":=\|:>\|:\|;\|,\|||\|\[\|\]\|@\|?\|\<_\>"
 
 " Various (High priority)
