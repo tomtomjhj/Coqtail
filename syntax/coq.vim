@@ -516,28 +516,28 @@ command -nargs=+ HiLink hi def link <args>
 " PROOFS
 HiLink coqTactic            Keyword
 HiLink coqLtac              coqTactic
-HiLink coqProofKwd          coqTactic
-HiLink coqProofPunctuation  coqTactic
+HiLink coqProofKwd          coqKwd
+HiLink coqProofPunctuation  Delimiter
 HiLink coqTacticKwd         coqTactic
 HiLink coqTacNotationKwd    coqTactic
 HiLink coqEvalFlag          coqTactic
-HiLink coqEqnKwd            coqTactic
+HiLink coqEqnKwd            Keyword
 HiLink coqTacticAdmit       coqProofAdmit
 " Exception
 HiLink coqProofDot          coqVernacular
 
 " PROOF DELIMITERS ("Proof", "Qed", "Defined", "Save")
-HiLink coqProofDelim        Underlined
+HiLink coqProofDelim        Keyword
 
 " TERMS AND TYPES
 HiLink coqTerm              Type
 HiLink coqKwd               coqTerm
-HiLink coqTermPunctuation   coqTerm
+HiLink coqTermPunctuation   Delimiter
 
 " VERNACULAR COMMANDS
 HiLink coqVernacular        PreProc
 HiLink coqVernacCmd         coqVernacular
-HiLink coqVernacPunctuation coqVernacular
+HiLink coqVernacPunctuation Delimiter
 HiLink coqHint              coqVernacular
 HiLink coqFeedback          coqVernacular
 HiLink coqTopLevel          coqVernacular
@@ -547,13 +547,13 @@ HiLink coqRegisterKwd       coqVernacular
 HiLink coqIdent             Identifier
 HiLink coqDefName           Identifier
 HiLink coqIdentDef          Function
-HiLink coqNotationString    coqIdent
+HiLink coqNotationString    String
 
 " CONSTRUCTORS AND FIELDS
-HiLink coqConstructor       Keyword
+HiLink coqConstructor       Constant
 
 " NOTATION SPECIFIC ("at level", "format", etc)
-HiLink coqNotationKwd       Special
+HiLink coqNotationKwd       NONE
 HiLink coqEqnOptions        coqNotationKwd
 
 " ATTRIBUTES
@@ -570,8 +570,8 @@ HiLink coqProofComment      coqComment
 HiLink coqTodo              Todo
 
 " Errors
-HiLink coqError             Error
-HiLink coqProofAdmit        coqError
+HiLink coqError             NONE
+HiLink coqProofAdmit        Error
 
 " Strings
 HiLink coqString            String

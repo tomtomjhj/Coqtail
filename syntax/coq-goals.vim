@@ -67,11 +67,11 @@ syn sync maxlines=500
 command -nargs=+ HiLink hi def link <args>
 
 " WORK LEFT
-HiLink coqNumberGoals       Todo
-HiLink coqNumberUnfocused   Todo
+HiLink coqNumberGoals       NONE
+HiLink coqNumberUnfocused   NONE
 HiLink coqNumberAdmitted    Error
-HiLink coqNumberShelved     Todo
-HiLink coqGoalLine          Todo
+HiLink coqNumberShelved     NONE
+HiLink coqGoalLine          NONE
 
 " GOAL IDENTIFIER
 HiLink coqGoalNumber        Underlined
