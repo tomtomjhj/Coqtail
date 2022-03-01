@@ -115,14 +115,11 @@ syn region coqIndNotScope    contained contains=coqIndBody matchgroup=coqVernacP
 syn match  coqConstructor    contained "[[:digit:]']\@!\k\k*"
 
 " Records
-syn region coqRec        contains=coqRecProfile start="\<Record\>" matchgroup=coqVernacPunctuation end="^\S"me=e-1 keepend
-syn region coqRecProfile contained contains=coqIdent,coqRecTerm,coqBinder matchgroup=coqVernacCmd start="Record" matchgroup=NONE end="^\S"me=e-1
-syn region coqRecTerm    contained contains=@coqTerm,coqRecContent matchgroup=coqVernacPunctuation start=":"  end="^\S"me=e-1
-syn region coqRecContent contained contains=coqConstructor,coqRecStart matchgroup=coqVernacPunctuation start=":=" end="^\S"me=e-1
-syn region coqRecStart   contained contains=coqRecField,@coqTerm start="{" matchgroup=coqVernacPunctuation end="}" keepend
-syn region coqRecField   contained contains=coqField matchgroup=coqVernacPunctuation start="{" end=":"
-syn region coqRecField   contained contains=coqField matchgroup=coqVernacPunctuation start=";" end=":"
-syn match coqField       contained "[[:digit:]']\@!\k\k*"
+syn region coqRec        contains=coqRecProfile start="\<Record\>" matchgroup=coqVernacPunctuation end="\.\_s" keepend
+syn region coqRecProfile contained contains=coqIdent,coqRecTerm,coqBinder matchgroup=coqVernacCmd start="Record" matchgroup=NONE end="\.\_s"
+syn region coqRecTerm    contained contains=@coqTerm,coqRecContent matchgroup=coqVernacPunctuation start=":"  end="\.\_s"
+syn region coqRecContent contained contains=coqRecStart matchgroup=coqVernacPunctuation start=":=" end="\.\_s"
+syn region coqRecStart   contained contains=@coqTerm start="{" matchgroup=coqVernacPunctuation end="}"
 
 " Arguments specification
 syn region  coqArgumentSpecification start="^\%(For \_.\{-}:\)\?\s*Argument" end="implicit" contains=@coqTerm,coqArgumentSpecificationKeywords
