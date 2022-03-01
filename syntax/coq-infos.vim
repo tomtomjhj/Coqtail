@@ -146,31 +146,13 @@ syn sync maxlines=500
 " Define the default highlighting.
 command -nargs=+ HiLink hi def link <args>
 
-" TERMS AND TYPES
-HiLink coqTerm              Type
-HiLink coqKwd               coqTerm
-HiLink coqTermPunctuation   coqTerm
-
 " VERNACULAR COMMANDS
-HiLink coqVernacCmd         coqVernacular
-HiLink coqVernacPunctuation coqVernacular
-HiLink coqTopLevel          coqVernacular
 HiLink coqSectionDecl       coqTopLevel
 HiLink coqModuleEnd         coqTopLevel
 
 " DEFINED OBJECTS
-HiLink coqIdent             Identifier
 HiLink coqSectionName       Identifier
-HiLink coqDefName           Identifier
 HiLink coqDefNameHidden     Identifier
-HiLink coqNotationString    coqIdent
-
-" CONSTRUCTORS AND FIELDS
-HiLink coqConstructor       Keyword
-HiLink coqField             coqConstructor
-
-" NOTATION SPECIFIC ("at level", "format", etc)
-HiLink coqNotationKwd       Special
 
 " SPECIFICATIONS
 HiLink coqArgumentSpecificationKeywords Underlined
@@ -182,18 +164,7 @@ HiLink coqVeryBad           ErrorMsg
 
 " USUAL VIM HIGHLIGHTINGS
 " Comments
-HiLink coqComment           Comment
 HiLink coqSectionDelimiter  Comment
-HiLink coqProofComment      coqComment
-
-" Todo
-HiLink coqTodo              Todo
-
-" Errors
-HiLink coqError             Error
-
-" Strings
-HiLink coqString            String
 
 delcommand HiLink
 

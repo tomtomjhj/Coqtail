@@ -65,11 +65,6 @@ syn sync maxlines=500
 " Define the default highlighting.
 command -nargs=+ HiLink hi def link <args>
 
-" TERMS AND TYPES
-HiLink coqTerm              Type
-HiLink coqKwd               coqTerm
-HiLink coqTermPunctuation   coqTerm
-
 " WORK LEFT
 HiLink coqNumberGoals       Todo
 HiLink coqNumberUnfocused   Todo
@@ -81,13 +76,6 @@ HiLink coqGoalLine          Todo
 HiLink coqGoalNumber        Underlined
 HiLink coqGoalName          Underlined
 HiLink coqNextGoal          Underlined
-
-" USUAL VIM HIGHLIGHTINGS
-" Comments
-HiLink coqComment           Comment
-
-" Strings
-HiLink coqString            String
 
 delcommand HiLink
 

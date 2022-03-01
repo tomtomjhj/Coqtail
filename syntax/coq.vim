@@ -535,6 +535,7 @@ HiLink coqRegisterKwd       coqVernacular
 
 " DEFINED OBJECTS
 HiLink coqIdent             Identifier
+HiLink coqDefName           Identifier
 HiLink coqNotationString    coqIdent
 
 " CONSTRUCTORS AND FIELDS
