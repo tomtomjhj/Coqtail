@@ -104,10 +104,12 @@ syn region coqModBinder containedin=coqModule contains=coqIdent matchgroup=coqVe
 syn region coqModVal contains=coqIdent,coqTermPunctuation start=":=" end="\.\_s"
 
 " Terms
-syn cluster coqTerm            contains=coqKwd,coqTermPunctuation,coqKwdMatch,coqKwdLet,coqKwdParen,coqString,coqAttribute
+syn cluster coqTerm            contains=coqKwd,coqTermPunctuation,coqKwdMatch,coqKwdLet,coqKwdParen,coqKwdBrace,coqString,coqAttribute
 syn region coqKwdMatch         contained contains=@coqTerm matchgroup=coqKwd start="\<match\>" end="\<with\>"
 syn region coqKwdLet           contained contains=@coqTerm matchgroup=coqKwd start="\<let\>"   end=":="
 syn region coqKwdParen         contained contains=@coqTerm matchgroup=coqTermPunctuation start="(" end=")" keepend extend
+" coqKwdBrace improves interaction between coq syntax and notations using {} (assuming that they are well-matched)
+syn region coqKwdBrace         contained contains=@coqTerm                               start="{" end="}"
 syn keyword coqKwd             contained else end exists2 fix cofix forall fun if in struct then as return
 syn match   coqKwd             contained "\<where\>"
 syn match   coqKwd             contained "\<exists!\?\>"
