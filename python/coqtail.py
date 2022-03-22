@@ -192,6 +192,63 @@ class Coqtail:
 
         return err
 
+    def start_op(self, opts: VimOptions) -> Optional[str]:
+        """sync(), and put Coqtail in a consistent state."""
+        err = None
+        while True:
+            newtick = self.get_changedtick()
+            if newtick == self.changedtick:
+                break
+
+            # NOTE that newbuf can be outdated while diffing & rewinding
+            newbuf = self.get_buffer()
+
+            if self.endpoints != []:
+                diff = _diff_lines(self.buffer, newbuf, self.endpoints[-1])
+                if diff is not None:
+                    linediff, coldiff = diff
+                    err = self.rewind_to(linediff, coldiff + 1, opts=opts)
+
+            self.changedtick = newtick
+            self.buffer = newbuf
+
+        return err
+
+    def validate_op(
+        self, tick: int, hazard: Tuple[int, int], opts: VimOptions
+    ) -> Tuple[bool, Optional[str]]:
+        """
+        tick: changedtick at the start of operation
+        hazard: if this position has become invalid, then the operation has to revert
+        """
+        err = None
+        newtick, newbuf = self.get_buf_state(tick)
+        if newtick == tick:
+            return True, err
+
+        # TODO: diff with stop=hazard
+        if self.endpoints != []:
+            diff = _diff_lines(self.buffer, newbuf, self.endpoints[-1])
+            if diff is not None:
+                # NOTE: No need to update states since it will be done when
+                # retrying (by sync()). But isn't it good to update here to
+                # reduce duplicate work?
+                linediff, coldiff = diff
+                err = self.rewind_to(linediff, coldiff + 1, opts=opts)
+                if diff <= hazard:
+                    return False, err
+
+        return True, err
+
+    def get_buf_state(self, tick: int) -> Tuple[int, List[bytes]]:
+        """Atomically get changedtick and buffer."""
+        while True:
+            buf = self.buffer if tick == self.changedtick else self.get_buffer()
+            newtick = self.get_changedtick()
+            if newtick == tick:
+                return (tick, buf)
+            tick = newtick
+
     # Coqtop Interface #
     def start(
         self,
@@ -376,7 +433,9 @@ class Coqtail:
         self.error_at = None
         admit_up_to: Optional[Mapping[str, Tuple[int, int]]] = None
 
-        while self.send_queue:
+        while True:
+            if not self.send_queue:
+                break
             self.refresh(goals=False, force=False, scroll=scroll, opts=opts)
             to_send = self.send_queue.popleft()
             message = _between(buffer, to_send["start"], to_send["stop"])
