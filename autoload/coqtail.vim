@@ -111,7 +111,11 @@ endfunction
 " Get a list of possible locations of the definition of 'target'.
 function! s:finddef(target) abort
   let [l:ok, l:loc] = s:call('find_def', 'sync', 0, {'target': a:target})
-  return (!l:ok || type(l:loc) != g:coqtail#compat#t_list) ? v:null : l:loc
+  if !l:ok || type(l:loc) != g:coqtail#compat#t_list
+    return v:null
+  endif
+  let l:loc[0] = substitute(l:loc[0], '_build/\f\{-}/', '', '')
+  return l:loc
 endfunction
 
 " Populate the quickfix list with possible locations of the definition of
